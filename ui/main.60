@@ -1,0 +1,31 @@
+DefaultText := Text {
+  font_family: "Spoqa Han Sans Neo";
+  color: black;
+  horizontal_alignment: center;
+}
+
+Main := Window {
+  property<int> class_no: 1;
+  property<string> start_time: "7:50";
+  property<string> end_time: "8:35";
+  property<int> left_time: 15;
+
+  width: 200px;
+  height: 100px;
+  title: "시간표";
+  HorizontalLayout {
+    alignment: center;
+    VerticalLayout {
+      DefaultText {
+        text: "\{class_no}교시";
+        font_weight: 700;
+        font_size: 30px;
+      }
+      DefaultText {
+        text: "\{start_time} ~ \{end_time}\n\{class_no + 1}교시까지 \{left_time}분 남음.";
+        font_weight: 300;
+        font_size: 15px;
+      }
+    }
+  }
+}
