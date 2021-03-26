@@ -2511,15 +2511,6 @@ dependencies = [
 ]
 
 [[package]]
-name = "timetable"
-version = "0.1.0"
-dependencies = [
- "chrono",
- "sixtyfps",
- "sixtyfps-build",
-]
-
-[[package]]
 name = "tiny-skia"
 version = "0.4.2"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -2832,6 +2823,15 @@ checksum = "ec600b26223b2948cedfde2a0aa6756dcf1fef616f43d7b3097aaf53a6c4d92b"
 dependencies = [
  "js-sys",
  "wasm-bindgen",
+]
+
+[[package]]
+name = "what-class"
+version = "0.1.0"
+dependencies = [
+ "chrono",
+ "sixtyfps",
+ "sixtyfps-build",
 ]
 
 [[package]]

@@ -1,6 +1,5 @@
 use chrono::{Duration, NaiveTime};
 
-#[derive(Debug)]
 struct ClassTime {
     start_time: NaiveTime,
     duration: Duration,
@@ -55,8 +54,6 @@ fn main() {
         classes.last().unwrap(),
         Duration::minutes(10),
     ));
-
-    println!("{:#?}", classes);
 
     let main_window = Main::new();
 

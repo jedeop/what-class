@@ -1,5 +1,5 @@
 [package]
-name = "timetable"
+name = "what-class"
 version = "0.1.0"
 authors = ["jedeop <me@jedeop.dev>"]
 edition = "2018"
