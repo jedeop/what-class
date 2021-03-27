@@ -1,8 +1,9 @@
+#![windows_subsystem = "windows"]
+
 use std::convert::TryInto;
 
 use chrono::{Duration, Local, NaiveTime};
 
-#[derive(Debug)]
 struct ClassTime {
     start_time: NaiveTime,
     duration: Duration,
@@ -28,7 +29,6 @@ impl ClassTime {
     }
 }
 
-#[derive(Debug)]
 struct CurrentClassTime<'a> {
     current: &'a ClassTime,
     next: &'a ClassTime,
