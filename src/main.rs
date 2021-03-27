@@ -3,6 +3,7 @@
 use std::convert::TryInto;
 
 use chrono::{Duration, Local, NaiveTime};
+use sixtyfps::{Timer, TimerMode};
 
 struct ClassTime {
     start_time: NaiveTime,
@@ -59,6 +60,28 @@ impl<'a> CurrentClassTime<'a> {
     }
 }
 
+fn update(main_window: &Main, classes: &[ClassTime]) {
+    let current = Local::now().time();
+    let class = CurrentClassTime::get(current, &classes);
+    if let Some(class) = class {
+        if class.is_class_time {
+            main_window.set_start_time(class.current.start_time.format("%H:%M").to_string().into());
+            main_window.set_end_time(class.current.end_time.format("%H:%M").to_string().into());
+        } else {
+            main_window.set_start_time(class.current.end_time.format("%H:%M").to_string().into());
+            main_window.set_end_time(class.next.start_time.format("%H:%M").to_string().into());
+        }
+        main_window.set_is_class_time(class.is_class_time);
+        main_window.set_class_no(class.current.no);
+        main_window.set_left_time(
+            (class.next.start_time - current)
+                .num_minutes()
+                .try_into()
+                .unwrap(),
+        )
+    }
+}
+
 sixtyfps::include_modules!();
 
 fn main() {
@@ -94,29 +117,18 @@ fn main() {
 
     let main_window = Main::new();
 
-    main_window.set_class_no(2);
-    main_window.set_is_class_time(false);
+    update(&main_window, &classes);
 
-    // let current = NaiveTime::from_hms(10, 31, 0);
-    let current = Local::now().time();
-    let class = CurrentClassTime::get(current, &classes);
-    if let Some(class) = class {
-        if class.is_class_time {
-            main_window.set_start_time(class.current.start_time.format("%H:%M").to_string().into());
-            main_window.set_end_time(class.current.end_time.format("%H:%M").to_string().into());
-        } else {
-            main_window.set_start_time(class.current.end_time.format("%H:%M").to_string().into());
-            main_window.set_end_time(class.next.start_time.format("%H:%M").to_string().into());
-        }
-        main_window.set_is_class_time(class.is_class_time);
-        main_window.set_class_no(class.current.no);
-        main_window.set_left_time(
-            (class.next.start_time - current)
-                .num_minutes()
-                .try_into()
-                .unwrap(),
-        )
-    }
+    let main_window_weak = main_window.as_weak();
+    let timer = Timer::default();
+    timer.start(
+        TimerMode::Repeated,
+        Duration::seconds(10).to_std().unwrap(),
+        move || {
+            let main_window = main_window_weak.unwrap();
+            update(&main_window, &classes);
+        },
+    );
 
     main_window.run();
 }
