@@ -1,6 +1,6 @@
 use std::convert::TryInto;
 
-use chrono::{Duration, NaiveTime};
+use chrono::{Duration, Local, NaiveTime};
 
 #[derive(Debug)]
 struct ClassTime {
@@ -97,7 +97,8 @@ fn main() {
     main_window.set_class_no(2);
     main_window.set_is_class_time(false);
 
-    let current = NaiveTime::from_hms(10, 31, 0);
+    // let current = NaiveTime::from_hms(10, 31, 0);
+    let current = Local::now().time();
     let class = CurrentClassTime::get(current, &classes);
     if let Some(class) = class {
         if class.is_class_time {
