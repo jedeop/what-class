@@ -13,7 +13,7 @@ Main := Window {
 
   width: 200px;
   height: 100px;
-  title: "시간표";
+  title: "What Class";
   HorizontalLayout {
     alignment: center;
     VerticalLayout {
